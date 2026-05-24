@@ -1,7 +1,4 @@
-// API server — if hosted on GitHub Pages, points to the backend server
-const API_BASE = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-    ? window.location.origin
-    : "http://188.227.86.219:8071";
+const API_BASE = window.location.origin;
 const tg = window.Telegram?.WebApp;
 
 let allDecks = [];
@@ -116,10 +113,11 @@ function bindEvents() {
     document.getElementById("btn-start").addEventListener("click", goToSpread);
     document.getElementById("btn-back-deck").addEventListener("click", goToDeck);
     document.getElementById("btn-back").addEventListener("click", goToQuery);
-    document.getElementById("btn-back-result").addEventListener("click", resetAll);
     document.getElementById("btn-interpret").addEventListener("click", doInterpret);
     document.getElementById("btn-reset").addEventListener("click", resetSpread);
     document.getElementById("query-input").addEventListener("input", updateStartBtn);
+    const backResult = document.getElementById("btn-back-result");
+    if (backResult) backResult.addEventListener("click", resetAll);
 }
 
 function updateStartBtn() {
@@ -371,56 +369,34 @@ function updateInterpretBtn() {
 
 // ── Interpret ──
 
-async function doInterpret() {
+function doInterpret() {
     const query = document.getElementById("query-input").value.trim();
     const spread = allSpreads.find(s => s.id === selectedSpreadId);
-    const payload = filledPositions.map((f, i) => ({
-        position: i, rune_id: f.id, reversed: f.reversed,
+
+    const cards = filledPositions.map((f, i) => ({
+        position: i,
+        rune_id: f.id,
+        name: f.name,
+        symbol: f.symbol,
+        reversed: f.reversed,
+        pos_name: spread.positions[i].name,
     }));
 
-    showLoading(true);
-
-    try {
-        const resp = await fetch(`${API_BASE}/api/interpret`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ query, deck_id: currentDeckId, spread_id: selectedSpreadId, runes: payload }),
-        });
-        const data = await resp.json();
-        if (data.ok) {
-            renderResult(spread, data.text);
-        } else {
-            renderResult(spread, "Ошибка: " + (data.error || "не удалось получить толкование"));
-        }
-    } catch {
-        renderResult(spread, "Ошибка соединения. Проверь подключение и попробуй ещё раз.");
-    }
-
-    showLoading(false);
-    showScreen("screen-result");
-}
-
-function renderResult(spread, text) {
-    const summary = document.getElementById("result-spread-summary");
-    summary.innerHTML = "";
-    filledPositions.forEach((f, i) => {
-        const chip = document.createElement("span");
-        chip.className = "result-card-chip" + (f.reversed ? " reversed" : "");
-        chip.innerHTML = `
-            <span class="chip-sym">${f.symbol}</span>
-            <span>${f.name}</span>
-            <span class="chip-pos">${spread.positions[i].name}</span>
-        `;
-        summary.appendChild(chip);
+    const data = JSON.stringify({
+        query,
+        deck_id: currentDeckId,
+        spread_id: selectedSpreadId,
+        spread_name: spread.name,
+        runes: cards,
     });
-    document.getElementById("result-text").innerHTML = formatMarkdown(text);
-}
 
-function formatMarkdown(text) {
-    return text
-        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-        .replace(/\*(.+?)\*/g, "<em>$1</em>")
-        .replace(/\n/g, "<br>");
+    // Send data to Telegram bot — bot will call LLM and reply in chat
+    if (tg) {
+        tg.sendData(data);
+    } else {
+        // Fallback for browser testing
+        alert("Telegram WebApp not available. Data:\n" + data);
+    }
 }
 
 // ── Loading ──
