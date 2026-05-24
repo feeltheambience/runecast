@@ -363,13 +363,30 @@ function updateHint() {
 }
 
 function updateInterpretBtn() {
-    const allFilled = filledPositions.every(f => f !== null);
-    document.getElementById("btn-interpret").disabled = !allFilled;
+    const allFilled = filledPositions.length > 0 && filledPositions.every(f => f !== null);
+    const btn = document.getElementById("btn-interpret");
+    if (allFilled) {
+        btn.classList.remove("btn-disabled");
+    } else {
+        btn.classList.add("btn-disabled");
+    }
+    // Also remove HTML disabled attribute in case it was set
+    btn.removeAttribute("disabled");
 }
 
 // ── Interpret ──
 
 function doInterpret() {
+    // Validate — all positions must be filled
+    const allFilled = filledPositions.length > 0 && filledPositions.every(f => f !== null);
+    if (!allFilled) {
+        const hint = document.getElementById("position-hint");
+        hint.textContent = "⚠️ Заполни все позиции!";
+        hint.style.color = "#c04050";
+        setTimeout(() => { hint.style.color = ""; updateHint(); }, 2000);
+        return;
+    }
+
     const query = document.getElementById("query-input").value.trim();
     const spread = allSpreads.find(s => s.id === selectedSpreadId);
 

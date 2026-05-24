@@ -111,7 +111,8 @@ textarea:focus { outline: none; border-color: var(--gold-dim); }
     transition: opacity 0.2s; letter-spacing: 0.5px;
 }
 .btn-primary:disabled { opacity: 0.35; cursor: default; }
-.btn-primary:not(:disabled):active { opacity: 0.85; }
+.btn-primary.btn-disabled { opacity: 0.35; cursor: default; }
+.btn-primary:not(:disabled):active, .btn-primary:not(.btn-disabled):active { opacity: 0.85; }
 
 .btn-secondary {
     display: block; width: 100%; padding: 12px; margin-top: 10px;
