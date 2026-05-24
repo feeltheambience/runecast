@@ -382,7 +382,7 @@ function doInterpret() {
         pos_name: spread.positions[i].name,
     }));
 
-    const data = JSON.stringify({
+    const payload = JSON.stringify({
         query,
         deck_id: currentDeckId,
         spread_id: selectedSpreadId,
@@ -390,13 +390,41 @@ function doInterpret() {
         runes: cards,
     });
 
+    // Show confirmation in-app before sending
+    renderResult(spread);
+
     // Send data to Telegram bot — bot will call LLM and reply in chat
-    if (tg) {
-        tg.sendData(data);
+    if (tg && tg.sendData) {
+        try {
+            tg.sendData(payload);
+        } catch (e) {
+            // sendData might fail if opened via inline button
+            document.getElementById("result-text").innerHTML =
+                '<b style="color:var(--danger)">Открой расклад через кнопку «✦ Расклад» внизу чата (не через инлайн-кнопку).</b>';
+        }
     } else {
-        // Fallback for browser testing
-        alert("Telegram WebApp not available. Data:\n" + data);
+        document.getElementById("result-text").innerHTML =
+            '<b>Данные расклада:</b><br><pre style="font-size:12px;overflow-x:auto">' + payload + '</pre>';
     }
+
+    showScreen("screen-result");
+}
+
+function renderResult(spread) {
+    const summary = document.getElementById("result-spread-summary");
+    summary.innerHTML = "";
+    filledPositions.forEach((f, i) => {
+        const chip = document.createElement("span");
+        chip.className = "result-card-chip" + (f.reversed ? " reversed" : "");
+        chip.innerHTML = `
+            <span class="chip-sym">${f.symbol}</span>
+            <span>${f.name}</span>
+            <span class="chip-pos">${spread.positions[i].name}</span>
+        `;
+        summary.appendChild(chip);
+    });
+    document.getElementById("result-text").innerHTML =
+        '⏳ <b>Отправлено!</b><br>Толкование придёт сообщением в чат.';
 }
 
 // ── Loading ──
