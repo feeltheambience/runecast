@@ -97,14 +97,27 @@ function loadFallbackCards(deckId) {
 }
 
 function loadFallbackSpreads() {
-    allSpreads = [
-        {id:"single",name:"Карта дня",description:"Одна карта — совет",hint:"Для быстрого совета или ежедневной практики",
-         positions:[{index:0,name:"Послание",description:"Основной совет"}],layout:"single"},
-        {id:"three",name:"Три карты",description:"Прошлое — Настоящее — Будущее",hint:"Обзор развития ситуации во времени",
-         positions:[{index:0,name:"Прошлое",description:"Что повлияло"},{index:1,name:"Настоящее",description:"Текущее состояние"},{index:2,name:"Будущее",description:"К чему ведёт"}],layout:"row"},
-        {id:"cross",name:"Крест",description:"Глубокий анализ ситуации",hint:"Для серьёзных вопросов",
-         positions:[{index:0,name:"Суть",description:"Суть ситуации"},{index:1,name:"Прошлое",description:"Что привело"},{index:2,name:"Будущее",description:"Куда движется"},{index:3,name:"Совет",description:"Что поможет"},{index:4,name:"Итог",description:"Результат"}],layout:"cross"},
-    ];
+    if (currentDeckId === "runes") {
+        allSpreads = [
+            {id:"rune_single",name:"Руна дня",description:"Одна руна — совет или послание",hint:"Самый простой и популярный вариант для ежедневной практики или быстрого ответа на вопрос",
+             positions:[{index:0,name:"Послание",description:"Основной совет или послание дня"}],layout:"single"},
+            {id:"rune_three",name:"Три руны",description:"Прошлое — Настоящее — Будущее",hint:"Базовый расклад, помогающий увидеть развитие ситуации во времени",
+             positions:[{index:0,name:"Прошлое",description:"События, которые привели к текущей ситуации"},{index:1,name:"Настоящее",description:"Что происходит прямо сейчас"},{index:2,name:"Будущее",description:"Наиболее вероятный исход"}],layout:"row"},
+            {id:"rune_cross",name:"Крест",description:"Анализ ситуации",hint:"Помогает глубоко разобрать конкретную проблему и найти выход из неё",
+             positions:[{index:0,name:"Суть проблемы",description:"Что происходит в данный момент"},{index:1,name:"Причина",description:"Скрытые истоки ситуации"},{index:2,name:"Потенциальный исход",description:"Что произойдёт, если ничего не менять"},{index:3,name:"Совет рун",description:"Как лучше поступить"}],layout:"row"},
+            {id:"rune_elements",name:"Четыре стихии",description:"Оценка ситуации через стихии",hint:"Идеально подходит для оценки проекта, отношений или принятия важного решения",
+             positions:[{index:0,name:"Огонь",description:"Ресурсы, амбиции, энергия"},{index:1,name:"Вода",description:"Эмоции, чувства, интуиция"},{index:2,name:"Воздух",description:"Мысли, планы, идеи"},{index:3,name:"Земля",description:"Материальный результат"}],layout:"row"},
+        ];
+    } else {
+        allSpreads = [
+            {id:"single",name:"Карта дня",description:"Одна карта — совет или послание",hint:"Для ежедневной практики, быстрого совета или простого вопроса",
+             positions:[{index:0,name:"Послание",description:"Основной совет или послание дня"}],layout:"single"},
+            {id:"three",name:"Три карты",description:"Прошлое — Настоящее — Будущее",hint:"Обзор развития ситуации во времени",
+             positions:[{index:0,name:"Прошлое",description:"Что повлияло"},{index:1,name:"Настоящее",description:"Текущее состояние"},{index:2,name:"Будущее",description:"К чему ведёт"}],layout:"row"},
+            {id:"cross",name:"Крест",description:"Глубокий анализ ситуации",hint:"Для серьёзных вопросов",
+             positions:[{index:0,name:"Суть",description:"Суть ситуации"},{index:1,name:"Прошлое",description:"Что привело"},{index:2,name:"Будущее",description:"Куда движется"},{index:3,name:"Совет",description:"Что поможет"},{index:4,name:"Итог",description:"Результат"}],layout:"cross"},
+        ];
+    }
 }
 
 // ── Events ──
@@ -191,12 +204,12 @@ function renderSpreadList() {
     allSpreads.forEach(sp => {
         const div = document.createElement("div");
         div.className = "spread-option";
-        const countWord = currentDeckId === "runes" ? runeWord(sp.positions.length) : cardWord(sp.positions.length);
+        const cw = countWord(sp.positions.length, currentDeckId);
         div.innerHTML = `
             <div class="spread-option-name">${sp.name}</div>
             <div class="spread-option-desc">${sp.description}</div>
             ${sp.hint ? `<div class="spread-option-hint">💡 ${sp.hint}</div>` : ""}
-            <div class="spread-option-count">${sp.positions.length} ${countWord}</div>
+            <div class="spread-option-count">${sp.positions.length} ${cw}</div>
         `;
         div.addEventListener("click", () => {
             document.querySelectorAll(".spread-option").forEach(o => o.classList.remove("selected"));
@@ -208,8 +221,12 @@ function renderSpreadList() {
     });
 }
 
-function runeWord(n) { return n === 1 ? "руна" : n <= 4 ? "руны" : "рун"; }
-function cardWord(n) { return n === 1 ? "карта" : n <= 4 ? "карты" : "карт"; }
+function countWord(n, deck) {
+    if (deck === "runes") {
+        return n === 1 ? "руна" : n <= 4 ? "руны" : "рун";
+    }
+    return n === 1 ? "карта" : n <= 4 ? "карты" : "карт";
+}
 
 // ── Spread layout ──
 
