@@ -407,24 +407,26 @@ function doInterpret() {
         runes: cards,
     });
 
-    // Show confirmation in-app before sending
-    renderResult(spread);
-
     // Send data to Telegram bot — bot will call LLM and reply in chat
     if (tg && tg.sendData) {
         try {
             tg.sendData(payload);
+            // On Desktop, sendData may not auto-close; force close after brief delay
+            setTimeout(() => { try { tg.close(); } catch(ex) {} }, 500);
         } catch (e) {
-            // sendData might fail if opened via inline button
+            // sendData failed — show in-app fallback
+            renderResult(spread);
             document.getElementById("result-text").innerHTML =
-                '<b style="color:var(--danger)">Открой расклад через кнопку «✦ Расклад» внизу чата (не через инлайн-кнопку).</b>';
+                '<b style="color:var(--danger)">Открой расклад через кнопку «Расклад» внизу чата, а не через меню бота.</b>';
+            showScreen("screen-result");
+            return;
         }
     } else {
+        renderResult(spread);
         document.getElementById("result-text").innerHTML =
             '<b>Данные расклада:</b><br><pre style="font-size:12px;overflow-x:auto">' + payload + '</pre>';
+        showScreen("screen-result");
     }
-
-    showScreen("screen-result");
 }
 
 function renderResult(spread) {
