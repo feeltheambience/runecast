@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Расклад</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- SCREEN 0: Deck selection -->
+<div id="screen-deck" class="screen active">
+    <div class="header">
+        <div class="rune-title">ᚠ ✦ 🃏</div>
+        <h1>Расклад</h1>
+        <p class="subtitle">Руны и Таро</p>
+    </div>
+    <div class="form-section">
+        <label>Выбери систему</label>
+        <div id="deck-list" class="deck-list"></div>
+    </div>
+</div>
+
+<!-- SCREEN 1: Query + Spread selection -->
+<div id="screen-query" class="screen">
+    <div class="spread-header">
+        <button id="btn-back-deck" class="btn-back">← Назад</button>
+        <h2 id="deck-title"></h2>
+    </div>
+    <div class="form-section">
+        <label for="query-input">Твой вопрос</label>
+        <textarea id="query-input" rows="3" placeholder="Опиши ситуацию или задай вопрос..."></textarea>
+    </div>
+    <div class="form-section">
+        <label>Выбери расклад</label>
+        <div id="spread-list" class="spread-list"></div>
+    </div>
+    <button id="btn-start" class="btn-primary" disabled>Начать расклад</button>
+</div>
+
+<!-- SCREEN 2: Card selection -->
+<div id="screen-spread" class="screen">
+    <div class="spread-header">
+        <button id="btn-back" class="btn-back">← Назад</button>
+        <h2 id="spread-title"></h2>
+    </div>
+    <div class="spread-info">
+        <span id="position-hint"></span>
+    </div>
+    <div id="spread-layout" class="spread-layout"></div>
+    <div class="divider"></div>
+    <div id="suit-filter" class="suit-filter" style="display:none"></div>
+    <div id="card-grid" class="card-grid"></div>
+    <button id="btn-interpret" class="btn-primary" disabled>✦ Расшифровать</button>
+    <button id="btn-reset" class="btn-secondary">Сбросить</button>
+</div>
+
+<!-- SCREEN 3: Results -->
+<div id="screen-result" class="screen">
+    <div class="spread-header">
+        <button id="btn-back-result" class="btn-back">← Новый расклад</button>
+        <h2>Толкование</h2>
+    </div>
+    <div id="result-spread-summary" class="result-spread-summary"></div>
+    <div id="result-text" class="result-text"></div>
+</div>
+
+<!-- Loading overlay -->
+<div id="loading" class="loading-overlay">
+    <div class="loading-content">
+        <div class="loading-rune" id="loading-rune">ᚠ</div>
+        <p>Толкование формируется...</p>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
