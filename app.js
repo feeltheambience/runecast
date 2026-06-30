@@ -99,14 +99,22 @@ function loadFallbackCards(deckId) {
 function loadFallbackSpreads() {
     if (currentDeckId === "runes") {
         allSpreads = [
-            {id:"rune_single",name:"Руна дня",description:"Одна руна — совет или послание",hint:"Самый простой и популярный вариант для ежедневной практики или быстрого ответа на вопрос",
+            {id:"rune_single",name:"Руна дня",description:"Одна руна — совет или послание",hint:"Самый простой вариант для ежедневной практики или быстрого ответа на вопрос",
              positions:[{index:0,name:"Послание",description:"Основной совет или послание дня"}],layout:"single"},
             {id:"rune_three",name:"Три руны",description:"Прошлое — Настоящее — Будущее",hint:"Базовый расклад, помогающий увидеть развитие ситуации во времени",
-             positions:[{index:0,name:"Прошлое",description:"События, которые привели к текущей ситуации"},{index:1,name:"Настоящее",description:"Что происходит прямо сейчас"},{index:2,name:"Будущее",description:"Наиболее вероятный исход"}],layout:"row"},
-            {id:"rune_cross",name:"Крест",description:"Анализ ситуации",hint:"Помогает глубоко разобрать конкретную проблему и найти выход из неё",
-             positions:[{index:0,name:"Суть проблемы",description:"Что происходит в данный момент"},{index:1,name:"Причина",description:"Скрытые истоки ситуации"},{index:2,name:"Потенциальный исход",description:"Что произойдёт, если ничего не менять"},{index:3,name:"Совет рун",description:"Как лучше поступить"}],layout:"row"},
-            {id:"rune_elements",name:"Четыре стихии",description:"Оценка ситуации через стихии",hint:"Идеально подходит для оценки проекта, отношений или принятия важного решения",
-             positions:[{index:0,name:"Огонь",description:"Ресурсы, амбиции, энергия"},{index:1,name:"Вода",description:"Эмоции, чувства, интуиция"},{index:2,name:"Воздух",description:"Мысли, планы, идеи"},{index:3,name:"Земля",description:"Материальный результат"}],layout:"row"},
+             positions:[{index:0,name:"Прошлое",description:"События, которые привели к ситуации"},{index:1,name:"Настоящее",description:"Что происходит прямо сейчас"},{index:2,name:"Будущее",description:"Наиболее вероятный исход"}],layout:"row"},
+            {id:"rune_cross",name:"Крест",description:"Анализ ситуации — 4 руны",hint:"Помогает глубоко разобрать конкретную проблему и найти выход из неё",
+             positions:[{index:0,name:"Суть проблемы",description:"Что происходит в данный момент"},{index:1,name:"Причина",description:"Скрытые истоки ситуации"},{index:2,name:"Потенциальный исход",description:"Что произойдёт, если ничего не менять"},{index:3,name:"Совет рун",description:"Как лучше поступить"}],layout:"cross4"},
+            {id:"rune_elements",name:"Четыре стихии",description:"Оценка ситуации через стихии",hint:"Идеально для оценки проекта, отношений или принятия важного решения",
+             positions:[{index:0,name:"Огонь",description:"Ресурсы, амбиции, энергия"},{index:1,name:"Вода",description:"Эмоции, чувства, интуиция"},{index:2,name:"Воздух",description:"Мысли, планы, идеи"},{index:3,name:"Земля",description:"Материальный результат"}],layout:"elements"},
+            {id:"rune_odin",name:"Крест Одина",description:"Глубинный анализ — 5 рун",hint:"Классический рунический крест: суть в центре, четыре аспекта вокруг",
+             positions:[{index:0,name:"Суть",description:"Ядро ситуации"},{index:1,name:"Прошлое",description:"Что привело"},{index:2,name:"Будущее",description:"Куда движется"},{index:3,name:"Помощь",description:"На что опереться"},{index:4,name:"Препятствие",description:"Что мешает"}],layout:"cross5"},
+            {id:"rune_relation",name:"На отношения",description:"Связь между людьми — 5 рун",hint:"Позиции обоих, что связывает, что мешает и к чему придёте",
+             positions:[{index:0,name:"Вы",description:"Ваша позиция"},{index:1,name:"Партнёр",description:"Позиция партнёра"},{index:2,name:"Связь",description:"Суть отношений"},{index:3,name:"Препятствие",description:"Что мешает"},{index:4,name:"Итог",description:"К чему придёте"}],layout:"relation5"},
+            {id:"rune_shield",name:"Щит",description:"Защита и стратегия — 6 рун",hint:"Когда чувствуете угрозу или нужна стратегия защиты",
+             positions:[{index:0,name:"Что защищает",description:"Текущая защита"},{index:1,name:"Откуда угроза",description:"Источник опасности"},{index:2,name:"Ваша сила",description:"Скрытый ресурс"},{index:3,name:"Слабое место",description:"Уязвимость"},{index:4,name:"Стратегия",description:"Как действовать"},{index:5,name:"Исход",description:"Результат"}],layout:"shield"},
+            {id:"rune_tree",name:"Мировое Древо",description:"Иггдрасиль — 9 рун, три мира",hint:"Самый глубокий расклад. Три уровня: дух, явь и подсознание",
+             positions:[{index:0,name:"Высшая цель",description:"К чему стремится дух"},{index:1,name:"Поддержка",description:"Божественная помощь"},{index:2,name:"Урок",description:"Чему учит ситуация"},{index:3,name:"Ситуация",description:"Что происходит сейчас"},{index:4,name:"Вызов",description:"Главное препятствие"},{index:5,name:"Ресурсы",description:"Что есть для решения"},{index:6,name:"Подсознание",description:"Глубинные страхи"},{index:7,name:"Отпустить",description:"От чего избавиться"},{index:8,name:"Корень",description:"Истинная причина"}],layout:"tree"},
         ];
     } else {
         allSpreads = [
@@ -210,6 +218,7 @@ function renderSpreadList() {
             <div class="spread-option-desc">${sp.description}</div>
             ${sp.hint ? `<div class="spread-option-hint">💡 ${sp.hint}</div>` : ""}
             <div class="spread-option-count">${sp.positions.length} ${cw}</div>
+            ${renderSchema(sp)}
         `;
         div.addEventListener("click", () => {
             document.querySelectorAll(".spread-option").forEach(o => o.classList.remove("selected"));
@@ -219,6 +228,77 @@ function renderSpreadList() {
         });
         el.appendChild(div);
     });
+}
+
+function renderSchema(sp) {
+    const L = sp.layout;
+    const P = sp.positions;
+    const cell = (i) => `<div class="schema-cell"><div class="schema-dot">${i+1}</div><div class="schema-label">${P[i].name}</div></div>`;
+    const empty = '<div></div>';
+
+    if (L === "single") {
+        return `<div class="spread-schema"><div class="schema-grid" style="grid-template-columns:1fr">${cell(0)}</div></div>`;
+    }
+    if (L === "row") {
+        return `<div class="spread-schema"><div class="schema-grid" style="grid-template-columns:repeat(${P.length},1fr)">${P.map((_,i)=>cell(i)).join("")}</div></div>`;
+    }
+    if (L === "cross4") {
+        return `<div class="spread-schema"><div class="schema-grid" style="grid-template-columns:1fr 1fr 1fr">
+            ${empty}${cell(0)}${empty}
+            ${cell(1)}${empty}${cell(2)}
+            ${empty}${cell(3)}${empty}
+        </div></div>`;
+    }
+    if (L === "cross5" || L === "cross") {
+        return `<div class="spread-schema"><div class="schema-grid" style="grid-template-columns:1fr 1fr 1fr">
+            ${empty}${cell(3)}${empty}
+            ${cell(1)}${cell(0)}${cell(2)}
+            ${empty}${cell(4)}${empty}
+        </div></div>`;
+    }
+    if (L === "elements") {
+        return `<div class="spread-schema"><div class="schema-grid" style="grid-template-columns:1fr 1fr">
+            ${cell(0)}${cell(1)}${cell(2)}${cell(3)}
+        </div></div>`;
+    }
+    if (L === "relation5") {
+        return `<div class="spread-schema"><div class="schema-grid" style="grid-template-columns:1fr 1fr 1fr">
+            ${cell(0)}${empty}${cell(1)}
+            ${empty}${cell(2)}${empty}
+            ${cell(3)}${empty}${cell(4)}
+        </div></div>`;
+    }
+    if (L === "shield") {
+        return `<div class="spread-schema"><div class="schema-grid" style="grid-template-columns:1fr 1fr 1fr">
+            ${empty}${cell(0)}${empty}
+            ${cell(1)}${cell(3)}${cell(2)}
+            ${cell(4)}${empty}${cell(5)}
+        </div></div>`;
+    }
+    if (L === "tree") {
+        return `<div class="spread-schema"><div class="schema-grid" style="grid-template-columns:1fr 1fr 1fr">
+            ${cell(0)}${cell(1)}${cell(2)}
+            <div class="schema-level">▲ Асгард ─── ▼</div>
+            ${cell(3)}${cell(4)}${cell(5)}
+            <div class="schema-level">▲ Мидгард ── ▼</div>
+            ${cell(6)}${cell(7)}${cell(8)}
+            <div class="schema-level">Хельхейм</div>
+        </div></div>`;
+    }
+    if (L === "relationship") {
+        return `<div class="spread-schema"><div class="schema-grid" style="grid-template-columns:1fr 1fr 1fr">
+            ${cell(0)}${cell(2)}${cell(1)}
+            ${cell(3)}${cell(4)}${cell(5)}
+        </div></div>`;
+    }
+    if (L === "horseshoe") {
+        return `<div class="spread-schema"><div class="schema-grid" style="grid-template-columns:repeat(4,1fr)">
+            ${cell(1)}${cell(2)}${cell(3)}${cell(4)}
+            ${cell(0)}${empty}${empty}${cell(5)}
+            ${empty}${cell(6)}${empty}${empty}
+        </div></div>`;
+    }
+    return "";
 }
 
 function countWord(n, deck) {
@@ -249,7 +329,17 @@ function renderSpreadLayout() {
     el.className = `spread-layout layout-${spread.layout}`;
     el.innerHTML = "";
 
+    const treeLevels = {0: "Асгард", 3: "Мидгард", 6: "Хельхейм"};
+
     spread.positions.forEach((pos, i) => {
+        if (spread.layout === "tree" && treeLevels[i]) {
+            const label = document.createElement("div");
+            label.className = "tree-level-label";
+            if (i === 0) label.style.gridRow = "1";
+            label.textContent = treeLevels[i];
+            if (i > 0) el.appendChild(label);
+        }
+
         const slot = document.createElement("div");
         slot.className = `position-slot pos-${i}`;
         slot.dataset.index = i;
