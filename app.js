@@ -1,4 +1,4 @@
-const API_BASE = window.location.origin;
+const API_BASE = "https://runebot.45-134-15-170.sslip.io";
 const tg = window.Telegram?.WebApp;
 
 let allDecks = [];
